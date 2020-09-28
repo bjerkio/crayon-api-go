@@ -49,7 +49,7 @@ type GetOrganizationAccessOK struct {
 }
 
 func (o *GetOrganizationAccessOK) Error() string {
-	return fmt.Sprintf("[GET /api/v1/OrganizationAccess][%d] getOrganizationAccessOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /api/v1/OrganizationAccess/grant][%d] getOrganizationAccessOK  %+v", 200, o.Payload)
 }
 
 func (o *GetOrganizationAccessOK) GetPayload() *models.APICollectionOfOrganizationAccess {

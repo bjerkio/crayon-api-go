@@ -29,6 +29,8 @@ type Client struct {
 type ClientService interface {
 	Add(params *AddParams, authInfo runtime.ClientAuthInfoWriter) (*AddOK, error)
 
+	GetCustomerTenantAgreements(params *GetCustomerTenantAgreementsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCustomerTenantAgreementsOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -64,6 +66,41 @@ func (a *Client) Add(params *AddParams, authInfo runtime.ClientAuthInfoWriter) (
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for Add: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  GetCustomerTenantAgreements get customer tenant agreements API
+*/
+func (a *Client) GetCustomerTenantAgreements(params *GetCustomerTenantAgreementsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCustomerTenantAgreementsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCustomerTenantAgreementsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "GetCustomerTenantAgreements",
+		Method:             "GET",
+		PathPattern:        "/api/v1/customertenants/{customerTenantId}/agreements",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetCustomerTenantAgreementsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetCustomerTenantAgreementsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for GetCustomerTenantAgreements: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

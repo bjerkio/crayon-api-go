@@ -1,0 +1,12 @@
+docker pull quay.io/goswagger/swagger
+Using default tag: latest
+latest: Pulling from goswagger/swagger
+Digest: sha256:31168c113862cce4cef6b16b20cdef1b126eb755492a6030ca68a9020b7eb657
+Status: Image is up to date for quay.io/goswagger/swagger:latest
+quay.io/goswagger/swagger:latest
+go generate ./tools.go
+curl -o ./swagger.json https://api.crayon.com/swagger/v1/swagger.json
+alias swagger="docker run --rm -it -e GOPATH=$HOME/go:/go -v $HOME:$HOME -w $(pwd) quay.io/goswagger/swagger"
+swagger generate client -f \
+	./swagger.json -t ./ --skip-validation
+./bin/addlicense -c "Bjerk AS" **/*.go	

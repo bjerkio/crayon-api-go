@@ -29,6 +29,8 @@ type Client struct {
 type ClientService interface {
 	GetOrganizationAccess(params *GetOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*GetOrganizationAccessOK, error)
 
+	PutOrganizationAccess(params *PutOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*PutOrganizationAccessOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -44,7 +46,7 @@ func (a *Client) GetOrganizationAccess(params *GetOrganizationAccessParams, auth
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "GetOrganizationAccess",
 		Method:             "GET",
-		PathPattern:        "/api/v1/OrganizationAccess",
+		PathPattern:        "/api/v1/OrganizationAccess/grant",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
@@ -64,6 +66,41 @@ func (a *Client) GetOrganizationAccess(params *GetOrganizationAccessParams, auth
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for GetOrganizationAccess: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  PutOrganizationAccess put organization access API
+*/
+func (a *Client) PutOrganizationAccess(params *PutOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*PutOrganizationAccessOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutOrganizationAccessParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "PutOrganizationAccess",
+		Method:             "PUT",
+		PathPattern:        "/api/v1/OrganizationAccess",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &PutOrganizationAccessReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*PutOrganizationAccessOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for PutOrganizationAccess: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

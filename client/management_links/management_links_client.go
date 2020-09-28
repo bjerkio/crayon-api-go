@@ -29,6 +29,8 @@ type Client struct {
 type ClientService interface {
 	GetGrouped(params *GetGroupedParams, authInfo runtime.ClientAuthInfoWriter) (*GetGroupedOK, error)
 
+	GetManagementLinks(params *GetManagementLinksParams, authInfo runtime.ClientAuthInfoWriter) (*GetManagementLinksOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
 }
 
@@ -64,6 +66,41 @@ func (a *Client) GetGrouped(params *GetGroupedParams, authInfo runtime.ClientAut
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for GetGrouped: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  GetManagementLinks get management links API
+*/
+func (a *Client) GetManagementLinks(params *GetManagementLinksParams, authInfo runtime.ClientAuthInfoWriter) (*GetManagementLinksOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetManagementLinksParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "GetManagementLinks",
+		Method:             "GET",
+		PathPattern:        "/api/v1/ManagementLinks",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetManagementLinksReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetManagementLinksOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for GetManagementLinks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

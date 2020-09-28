@@ -10,23 +10,33 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
+	"github.com/bjerkio/crayon-api-go/client/activity_logs"
+	"github.com/bjerkio/crayon-api-go/client/addresses"
 	"github.com/bjerkio/crayon-api-go/client/agreement_products"
 	"github.com/bjerkio/crayon-api-go/client/agreement_reports"
+	"github.com/bjerkio/crayon-api-go/client/agreements"
 	"github.com/bjerkio/crayon-api-go/client/assets"
 	"github.com/bjerkio/crayon-api-go/client/aws_accounts"
 	"github.com/bjerkio/crayon-api-go/client/azure_plans"
 	"github.com/bjerkio/crayon-api-go/client/billing_cycles"
 	"github.com/bjerkio/crayon-api-go/client/billing_statements"
 	"github.com/bjerkio/crayon-api-go/client/blog_items"
+	"github.com/bjerkio/crayon-api-go/client/clients"
 	"github.com/bjerkio/crayon-api-go/client/consumers"
 	"github.com/bjerkio/crayon-api-go/client/crayon_accounts"
 	"github.com/bjerkio/crayon-api-go/client/customer_tenant_agreements"
 	"github.com/bjerkio/crayon-api-go/client/customer_tenants"
+	"github.com/bjerkio/crayon-api-go/client/customer_token"
 	"github.com/bjerkio/crayon-api-go/client/google_orders"
+	"github.com/bjerkio/crayon-api-go/client/groupings"
+	"github.com/bjerkio/crayon-api-go/client/invoice_profiles"
 	"github.com/bjerkio/crayon-api-go/client/management_links"
+	"github.com/bjerkio/crayon-api-go/client/me"
 	"github.com/bjerkio/crayon-api-go/client/organization_access"
 	"github.com/bjerkio/crayon-api-go/client/organizations"
+	"github.com/bjerkio/crayon-api-go/client/ping"
 	"github.com/bjerkio/crayon-api-go/client/product_containers"
+	"github.com/bjerkio/crayon-api-go/client/programs"
 	"github.com/bjerkio/crayon-api-go/client/publishers"
 	"github.com/bjerkio/crayon-api-go/client/regions"
 	"github.com/bjerkio/crayon-api-go/client/reseller_sales_prices"
@@ -78,23 +88,33 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *CrayonGrou
 
 	cli := new(CrayonGroupCustomerAPI)
 	cli.Transport = transport
+	cli.ActivityLogs = activity_logs.New(transport, formats)
+	cli.Addresses = addresses.New(transport, formats)
 	cli.AgreementProducts = agreement_products.New(transport, formats)
 	cli.AgreementReports = agreement_reports.New(transport, formats)
+	cli.Agreements = agreements.New(transport, formats)
 	cli.Assets = assets.New(transport, formats)
 	cli.AwsAccounts = aws_accounts.New(transport, formats)
 	cli.AzurePlans = azure_plans.New(transport, formats)
 	cli.BillingCycles = billing_cycles.New(transport, formats)
 	cli.BillingStatements = billing_statements.New(transport, formats)
 	cli.BlogItems = blog_items.New(transport, formats)
+	cli.Clients = clients.New(transport, formats)
 	cli.Consumers = consumers.New(transport, formats)
 	cli.CrayonAccounts = crayon_accounts.New(transport, formats)
 	cli.CustomerTenantAgreements = customer_tenant_agreements.New(transport, formats)
 	cli.CustomerTenants = customer_tenants.New(transport, formats)
+	cli.CustomerToken = customer_token.New(transport, formats)
 	cli.GoogleOrders = google_orders.New(transport, formats)
+	cli.Groupings = groupings.New(transport, formats)
+	cli.InvoiceProfiles = invoice_profiles.New(transport, formats)
 	cli.ManagementLinks = management_links.New(transport, formats)
+	cli.Me = me.New(transport, formats)
 	cli.OrganizationAccess = organization_access.New(transport, formats)
 	cli.Organizations = organizations.New(transport, formats)
+	cli.Ping = ping.New(transport, formats)
 	cli.ProductContainers = product_containers.New(transport, formats)
+	cli.Programs = programs.New(transport, formats)
 	cli.Publishers = publishers.New(transport, formats)
 	cli.Regions = regions.New(transport, formats)
 	cli.ResellerSalesPrices = reseller_sales_prices.New(transport, formats)
@@ -146,9 +166,15 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 
 // CrayonGroupCustomerAPI is a client for crayon group customer API
 type CrayonGroupCustomerAPI struct {
+	ActivityLogs activity_logs.ClientService
+
+	Addresses addresses.ClientService
+
 	AgreementProducts agreement_products.ClientService
 
 	AgreementReports agreement_reports.ClientService
+
+	Agreements agreements.ClientService
 
 	Assets assets.ClientService
 
@@ -162,6 +188,8 @@ type CrayonGroupCustomerAPI struct {
 
 	BlogItems blog_items.ClientService
 
+	Clients clients.ClientService
+
 	Consumers consumers.ClientService
 
 	CrayonAccounts crayon_accounts.ClientService
@@ -170,15 +198,27 @@ type CrayonGroupCustomerAPI struct {
 
 	CustomerTenants customer_tenants.ClientService
 
+	CustomerToken customer_token.ClientService
+
 	GoogleOrders google_orders.ClientService
 
+	Groupings groupings.ClientService
+
+	InvoiceProfiles invoice_profiles.ClientService
+
 	ManagementLinks management_links.ClientService
+
+	Me me.ClientService
 
 	OrganizationAccess organization_access.ClientService
 
 	Organizations organizations.ClientService
 
+	Ping ping.ClientService
+
 	ProductContainers product_containers.ClientService
+
+	Programs programs.ClientService
 
 	Publishers publishers.ClientService
 
@@ -200,23 +240,33 @@ type CrayonGroupCustomerAPI struct {
 // SetTransport changes the transport on the client and all its subresources
 func (c *CrayonGroupCustomerAPI) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
+	c.ActivityLogs.SetTransport(transport)
+	c.Addresses.SetTransport(transport)
 	c.AgreementProducts.SetTransport(transport)
 	c.AgreementReports.SetTransport(transport)
+	c.Agreements.SetTransport(transport)
 	c.Assets.SetTransport(transport)
 	c.AwsAccounts.SetTransport(transport)
 	c.AzurePlans.SetTransport(transport)
 	c.BillingCycles.SetTransport(transport)
 	c.BillingStatements.SetTransport(transport)
 	c.BlogItems.SetTransport(transport)
+	c.Clients.SetTransport(transport)
 	c.Consumers.SetTransport(transport)
 	c.CrayonAccounts.SetTransport(transport)
 	c.CustomerTenantAgreements.SetTransport(transport)
 	c.CustomerTenants.SetTransport(transport)
+	c.CustomerToken.SetTransport(transport)
 	c.GoogleOrders.SetTransport(transport)
+	c.Groupings.SetTransport(transport)
+	c.InvoiceProfiles.SetTransport(transport)
 	c.ManagementLinks.SetTransport(transport)
+	c.Me.SetTransport(transport)
 	c.OrganizationAccess.SetTransport(transport)
 	c.Organizations.SetTransport(transport)
+	c.Ping.SetTransport(transport)
 	c.ProductContainers.SetTransport(transport)
+	c.Programs.SetTransport(transport)
 	c.Publishers.SetTransport(transport)
 	c.Regions.SetTransport(transport)
 	c.ResellerSalesPrices.SetTransport(transport)

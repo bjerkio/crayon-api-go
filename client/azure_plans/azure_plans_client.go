@@ -37,8 +37,6 @@ type ClientService interface {
 
 	GetSubscriptionByID(params *GetSubscriptionByIDParams, authInfo runtime.ClientAuthInfoWriter) (*GetSubscriptionByIDOK, error)
 
-	GetSubscriptions(params *GetSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*GetSubscriptionsOK, error)
-
 	PostAPIV1AzurePlansAzurePlanIDAzureSubscriptionsIDEnable(params *PostAPIV1AzurePlansAzurePlanIDAzureSubscriptionsIDEnableParams, authInfo runtime.ClientAuthInfoWriter) (*PostAPIV1AzurePlansAzurePlanIDAzureSubscriptionsIDEnableOK, error)
 
 	UpdateSubscription(params *UpdateSubscriptionParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateSubscriptionOK, error)
@@ -218,41 +216,6 @@ func (a *Client) GetSubscriptionByID(params *GetSubscriptionByIDParams, authInfo
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for GetSubscriptionById: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-  GetSubscriptions get subscriptions API
-*/
-func (a *Client) GetSubscriptions(params *GetSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*GetSubscriptionsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewGetSubscriptionsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "GetSubscriptions",
-		Method:             "GET",
-		PathPattern:        "/api/v1/AzurePlans/{azurePlanId}/azureSubscriptions",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &GetSubscriptionsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*GetSubscriptionsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for GetSubscriptions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

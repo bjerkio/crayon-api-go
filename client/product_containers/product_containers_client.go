@@ -35,7 +35,11 @@ type ClientService interface {
 
 	GetOrCreateShoppingCart(params *GetOrCreateShoppingCartParams, authInfo runtime.ClientAuthInfoWriter) (*GetOrCreateShoppingCartOK, error)
 
+	GetProductContainers(params *GetProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*GetProductContainersOK, error)
+
 	PatchProductRow(params *PatchProductRowParams, authInfo runtime.ClientAuthInfoWriter) (*PatchProductRowOK, error)
+
+	PutProductContainers(params *PutProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*PutProductContainersOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -181,6 +185,41 @@ func (a *Client) GetOrCreateShoppingCart(params *GetOrCreateShoppingCartParams, 
 }
 
 /*
+  GetProductContainers get product containers API
+*/
+func (a *Client) GetProductContainers(params *GetProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*GetProductContainersOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetProductContainersParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "GetProductContainers",
+		Method:             "GET",
+		PathPattern:        "/api/v1/ProductContainers",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetProductContainersReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetProductContainersOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for GetProductContainers: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
   PatchProductRow patch product row API
 */
 func (a *Client) PatchProductRow(params *PatchProductRowParams, authInfo runtime.ClientAuthInfoWriter) (*PatchProductRowOK, error) {
@@ -212,6 +251,41 @@ func (a *Client) PatchProductRow(params *PatchProductRowParams, authInfo runtime
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for PatchProductRow: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  PutProductContainers put product containers API
+*/
+func (a *Client) PutProductContainers(params *PutProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*PutProductContainersOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutProductContainersParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "PutProductContainers",
+		Method:             "PUT",
+		PathPattern:        "/api/v1/ProductContainers/{id}",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &PutProductContainersReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*PutProductContainersOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for PutProductContainers: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
