@@ -61,13 +61,13 @@ for the create customer token operation typically these are written to a http.Re
 type CreateCustomerTokenParams struct {
 
 	/*GrantType*/
-	GrantType interface{}
+	GrantType string
 	/*Password*/
-	Password interface{}
+	Password string
 	/*Scope*/
-	Scope interface{}
+	Scope string
 	/*Username*/
-	Username interface{}
+	Username string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -108,46 +108,46 @@ func (o *CreateCustomerTokenParams) SetHTTPClient(client *http.Client) {
 }
 
 // WithGrantType adds the grantType to the create customer token params
-func (o *CreateCustomerTokenParams) WithGrantType(grantType interface{}) *CreateCustomerTokenParams {
+func (o *CreateCustomerTokenParams) WithGrantType(grantType string) *CreateCustomerTokenParams {
 	o.SetGrantType(grantType)
 	return o
 }
 
 // SetGrantType adds the grantType to the create customer token params
-func (o *CreateCustomerTokenParams) SetGrantType(grantType interface{}) {
+func (o *CreateCustomerTokenParams) SetGrantType(grantType string) {
 	o.GrantType = grantType
 }
 
 // WithPassword adds the password to the create customer token params
-func (o *CreateCustomerTokenParams) WithPassword(password interface{}) *CreateCustomerTokenParams {
+func (o *CreateCustomerTokenParams) WithPassword(password string) *CreateCustomerTokenParams {
 	o.SetPassword(password)
 	return o
 }
 
 // SetPassword adds the password to the create customer token params
-func (o *CreateCustomerTokenParams) SetPassword(password interface{}) {
+func (o *CreateCustomerTokenParams) SetPassword(password string) {
 	o.Password = password
 }
 
 // WithScope adds the scope to the create customer token params
-func (o *CreateCustomerTokenParams) WithScope(scope interface{}) *CreateCustomerTokenParams {
+func (o *CreateCustomerTokenParams) WithScope(scope string) *CreateCustomerTokenParams {
 	o.SetScope(scope)
 	return o
 }
 
 // SetScope adds the scope to the create customer token params
-func (o *CreateCustomerTokenParams) SetScope(scope interface{}) {
+func (o *CreateCustomerTokenParams) SetScope(scope string) {
 	o.Scope = scope
 }
 
 // WithUsername adds the username to the create customer token params
-func (o *CreateCustomerTokenParams) WithUsername(username interface{}) *CreateCustomerTokenParams {
+func (o *CreateCustomerTokenParams) WithUsername(username string) *CreateCustomerTokenParams {
 	o.SetUsername(username)
 	return o
 }
 
 // SetUsername adds the username to the create customer token params
-func (o *CreateCustomerTokenParams) SetUsername(username interface{}) {
+func (o *CreateCustomerTokenParams) SetUsername(username string) {
 	o.Username = username
 }
 
@@ -159,26 +159,38 @@ func (o *CreateCustomerTokenParams) WriteToRequest(r runtime.ClientRequest, reg 
 	}
 	var res []error
 
-	if o.GrantType != nil {
-		if err := r.SetBodyParam(o.GrantType); err != nil {
+	// form param grant_type
+	frGrantType := o.GrantType
+	fGrantType := frGrantType
+	if fGrantType != "" {
+		if err := r.SetFormParam("grant_type", fGrantType); err != nil {
 			return err
 		}
 	}
 
-	if o.Password != nil {
-		if err := r.SetBodyParam(o.Password); err != nil {
+	// form param password
+	frPassword := o.Password
+	fPassword := frPassword
+	if fPassword != "" {
+		if err := r.SetFormParam("password", fPassword); err != nil {
 			return err
 		}
 	}
 
-	if o.Scope != nil {
-		if err := r.SetBodyParam(o.Scope); err != nil {
+	// form param scope
+	frScope := o.Scope
+	fScope := frScope
+	if fScope != "" {
+		if err := r.SetFormParam("scope", fScope); err != nil {
 			return err
 		}
 	}
 
-	if o.Username != nil {
-		if err := r.SetBodyParam(o.Username); err != nil {
+	// form param username
+	frUsername := o.Username
+	fUsername := frUsername
+	if fUsername != "" {
+		if err := r.SetFormParam("username", fUsername); err != nil {
 			return err
 		}
 	}

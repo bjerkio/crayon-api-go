@@ -6101,23 +6101,27 @@
             "operationId": "CreateCustomerToken",
             "parameters": [
                {
+                  "type": "string",
                   "name": "username",
-                  "in": "body",
+                  "in": "formData",
                   "required": true
                },
                {
+                  "type": "string",
                   "name": "password",
-                  "in": "body",
+                  "in": "formData",
                   "required": true
                },
                {
+                  "type": "string",
                   "name": "grant_type",
-                  "in": "body",
+                  "in": "formData",
                   "required": true
                },
                {
+                  "type": "string",
                   "name": "scope",
-                  "in": "body",
+                  "in": "formData",
                   "required": true
                }
             ],

@@ -60,30 +60,42 @@ func main() {
 	// Add missing parameters for token
 	parameters := []spec.Parameter{
 		{
+			SimpleSchema: spec.SimpleSchema{
+				Type: "string",
+			},
 			ParamProps: spec.ParamProps{
 				Name:     "username",
-				In:       "body",
+				In:       "formData",
 				Required: true,
 			},
 		},
 		{
+			SimpleSchema: spec.SimpleSchema{
+				Type: "string",
+			},
 			ParamProps: spec.ParamProps{
 				Name:     "password",
-				In:       "body",
+				In:       "formData",
 				Required: true,
 			},
 		},
 		{
+			SimpleSchema: spec.SimpleSchema{
+				Type: "string",
+			},
 			ParamProps: spec.ParamProps{
 				Name:     "grant_type",
-				In:       "body",
+				In:       "formData",
 				Required: true,
 			},
 		},
 		{
+			SimpleSchema: spec.SimpleSchema{
+				Type: "string",
+			},
 			ParamProps: spec.ParamProps{
 				Name:     "scope",
-				In:       "body",
+				In:       "formData",
 				Required: true,
 			},
 		},
