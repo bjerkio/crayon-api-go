@@ -27,6 +27,8 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	CreateSubscriptions(params *CreateSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateSubscriptionsOK, error)
+
 	DeleteSubscriptionTags(params *DeleteSubscriptionTagsParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteSubscriptionTagsOK, error)
 
 	GetActivationLinkAsync(params *GetActivationLinkAsyncParams, authInfo runtime.ClientAuthInfoWriter) (*GetActivationLinkAsyncOK, error)
@@ -45,10 +47,6 @@ type ClientService interface {
 
 	PostSubscriptionConversion(params *PostSubscriptionConversionParams, authInfo runtime.ClientAuthInfoWriter) (*PostSubscriptionConversionOK, error)
 
-	PostSubscriptions(params *PostSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*PostSubscriptionsOK, error)
-
-	PutSubscriptions(params *PutSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*PutSubscriptionsOK, error)
-
 	RegisterReservedInstance(params *RegisterReservedInstanceParams, authInfo runtime.ClientAuthInfoWriter) (*RegisterReservedInstanceOK, error)
 
 	SetSubscriptionAddon(params *SetSubscriptionAddonParams, authInfo runtime.ClientAuthInfoWriter) (*SetSubscriptionAddonOK, error)
@@ -57,7 +55,44 @@ type ClientService interface {
 
 	Subscription(params *SubscriptionParams, authInfo runtime.ClientAuthInfoWriter) (*SubscriptionOK, error)
 
+	UpdateSubscriptions(params *UpdateSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateSubscriptionsOK, error)
+
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  CreateSubscriptions create subscriptions API
+*/
+func (a *Client) CreateSubscriptions(params *CreateSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateSubscriptionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateSubscriptionsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CreateSubscriptions",
+		Method:             "POST",
+		PathPattern:        "/api/v1/Subscriptions",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &CreateSubscriptionsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateSubscriptionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CreateSubscriptions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -376,76 +411,6 @@ func (a *Client) PostSubscriptionConversion(params *PostSubscriptionConversionPa
 }
 
 /*
-  PostSubscriptions post subscriptions API
-*/
-func (a *Client) PostSubscriptions(params *PostSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*PostSubscriptionsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewPostSubscriptionsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PostSubscriptions",
-		Method:             "POST",
-		PathPattern:        "/api/v1/Subscriptions",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &PostSubscriptionsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*PostSubscriptionsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PostSubscriptions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-  PutSubscriptions put subscriptions API
-*/
-func (a *Client) PutSubscriptions(params *PutSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*PutSubscriptionsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewPutSubscriptionsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PutSubscriptions",
-		Method:             "PUT",
-		PathPattern:        "/api/v1/Subscriptions/{id}",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &PutSubscriptionsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*PutSubscriptionsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PutSubscriptions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
   RegisterReservedInstance register reserved instance API
 */
 func (a *Client) RegisterReservedInstance(params *RegisterReservedInstanceParams, authInfo runtime.ClientAuthInfoWriter) (*RegisterReservedInstanceOK, error) {
@@ -582,6 +547,41 @@ func (a *Client) Subscription(params *SubscriptionParams, authInfo runtime.Clien
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for Subscription: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  UpdateSubscriptions update subscriptions API
+*/
+func (a *Client) UpdateSubscriptions(params *UpdateSubscriptionsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateSubscriptionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSubscriptionsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "UpdateSubscriptions",
+		Method:             "PUT",
+		PathPattern:        "/api/v1/Subscriptions/{id}",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &UpdateSubscriptionsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSubscriptionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for UpdateSubscriptions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

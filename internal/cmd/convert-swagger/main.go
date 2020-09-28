@@ -12,11 +12,28 @@ import (
 	"github.com/go-openapi/spec"
 )
 
+func replaceMethodName(from string) string {
+	methods := map[string]string{
+		"post":   "Create",
+		"put":    "Update",
+		"patch":  "Update",
+		"get":    "Get",
+		"delete": "Delete",
+	}
+
+	if methods[from] != "" {
+		return methods[from]
+	}
+
+	return from
+}
+
 func fixMethod(path string, op *spec.Operation) {
 	if op != nil {
 		r := regexp.MustCompile(`(delete|get|head|options|patch|post|put)\b`)
-		if r.MatchString(strings.ToLower(op.ID)) {
-			op.ID = fmt.Sprintf("%s%s", op.ID, op.Tags[0])
+		id := strings.ToLower(op.ID)
+		if r.MatchString(id) {
+			op.ID = fmt.Sprintf("%s%s", replaceMethodName(id), op.Tags[0])
 		}
 	}
 }
@@ -36,6 +53,39 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	parameters := []spec.Parameter{
+		{
+			ParamProps: spec.ParamProps{
+				Name:     "username",
+				In:       "body",
+				Required: true,
+			},
+		},
+		{
+			ParamProps: spec.ParamProps{
+				Name:     "password",
+				In:       "body",
+				Required: true,
+			},
+		},
+		{
+			ParamProps: spec.ParamProps{
+				Name:     "grant_type",
+				In:       "body",
+				Required: true,
+			},
+		},
+		{
+			ParamProps: spec.ParamProps{
+				Name:     "scope",
+				In:       "body",
+				Required: true,
+			},
+		},
+	}
+
+	api.Paths.Paths["/api/v1/connect/token"].Post.Parameters = parameters
 
 	for i, h := range api.Paths.Paths {
 		fixMethod(i, h.Delete)

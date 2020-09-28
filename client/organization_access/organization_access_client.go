@@ -29,7 +29,7 @@ type Client struct {
 type ClientService interface {
 	GetOrganizationAccess(params *GetOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*GetOrganizationAccessOK, error)
 
-	PutOrganizationAccess(params *PutOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*PutOrganizationAccessOK, error)
+	UpdateOrganizationAccess(params *UpdateOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateOrganizationAccessOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -70,23 +70,23 @@ func (a *Client) GetOrganizationAccess(params *GetOrganizationAccessParams, auth
 }
 
 /*
-  PutOrganizationAccess put organization access API
+  UpdateOrganizationAccess update organization access API
 */
-func (a *Client) PutOrganizationAccess(params *PutOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*PutOrganizationAccessOK, error) {
+func (a *Client) UpdateOrganizationAccess(params *UpdateOrganizationAccessParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateOrganizationAccessOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewPutOrganizationAccessParams()
+		params = NewUpdateOrganizationAccessParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PutOrganizationAccess",
+		ID:                 "UpdateOrganizationAccess",
 		Method:             "PUT",
 		PathPattern:        "/api/v1/OrganizationAccess",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &PutOrganizationAccessReader{formats: a.formats},
+		Reader:             &UpdateOrganizationAccessReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -94,13 +94,13 @@ func (a *Client) PutOrganizationAccess(params *PutOrganizationAccessParams, auth
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*PutOrganizationAccessOK)
+	success, ok := result.(*UpdateOrganizationAccessOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PutOrganizationAccess: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for UpdateOrganizationAccess: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

@@ -27,29 +27,29 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	PostCustomerToken(params *PostCustomerTokenParams, authInfo runtime.ClientAuthInfoWriter) (*PostCustomerTokenOK, error)
+	CreateCustomerToken(params *CreateCustomerTokenParams, authInfo runtime.ClientAuthInfoWriter) (*CreateCustomerTokenOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-  PostCustomerToken post customer token API
+  CreateCustomerToken create customer token API
 */
-func (a *Client) PostCustomerToken(params *PostCustomerTokenParams, authInfo runtime.ClientAuthInfoWriter) (*PostCustomerTokenOK, error) {
+func (a *Client) CreateCustomerToken(params *CreateCustomerTokenParams, authInfo runtime.ClientAuthInfoWriter) (*CreateCustomerTokenOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewPostCustomerTokenParams()
+		params = NewCreateCustomerTokenParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PostCustomerToken",
+		ID:                 "CreateCustomerToken",
 		Method:             "POST",
 		PathPattern:        "/api/v1/connect/token",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &PostCustomerTokenReader{formats: a.formats},
+		Reader:             &CreateCustomerTokenReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -57,13 +57,13 @@ func (a *Client) PostCustomerToken(params *PostCustomerTokenParams, authInfo run
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*PostCustomerTokenOK)
+	success, ok := result.(*CreateCustomerTokenOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PostCustomerToken: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for CreateCustomerToken: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

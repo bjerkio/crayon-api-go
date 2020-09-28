@@ -1365,7 +1365,7 @@
             "tags": [
                "AwsAccounts"
             ],
-            "operationId": "PutAwsAccounts",
+            "operationId": "UpdateAwsAccounts",
             "parameters": [
                {
                   "type": "integer",
@@ -2145,7 +2145,7 @@
             "tags": [
                "Clients"
             ],
-            "operationId": "PostClients",
+            "operationId": "CreateClients",
             "parameters": [
                {
                   "name": "client",
@@ -2208,7 +2208,7 @@
             "tags": [
                "Clients"
             ],
-            "operationId": "PutClients",
+            "operationId": "UpdateClients",
             "parameters": [
                {
                   "type": "string",
@@ -2522,7 +2522,7 @@
             "tags": [
                "CrayonAccounts"
             ],
-            "operationId": "PostCrayonAccounts",
+            "operationId": "CreateCrayonAccounts",
             "parameters": [
                {
                   "name": "crayonAccount",
@@ -2586,7 +2586,7 @@
             "tags": [
                "CrayonAccounts"
             ],
-            "operationId": "PutCrayonAccounts",
+            "operationId": "UpdateCrayonAccounts",
             "parameters": [
                {
                   "type": "integer",
@@ -2717,7 +2717,7 @@
             "tags": [
                "CustomerTenants"
             ],
-            "operationId": "PostCustomerTenants",
+            "operationId": "CreateCustomerTenants",
             "parameters": [
                {
                   "name": "customerTenant",
@@ -2853,7 +2853,7 @@
             "tags": [
                "CustomerTenants"
             ],
-            "operationId": "PutCustomerTenants",
+            "operationId": "UpdateCustomerTenants",
             "parameters": [
                {
                   "type": "integer",
@@ -3051,7 +3051,7 @@
             "tags": [
                "Groupings"
             ],
-            "operationId": "PostGroupings",
+            "operationId": "CreateGroupings",
             "parameters": [
                {
                   "name": "grouping",
@@ -3115,7 +3115,7 @@
             "tags": [
                "Groupings"
             ],
-            "operationId": "PutGroupings",
+            "operationId": "UpdateGroupings",
             "parameters": [
                {
                   "type": "integer",
@@ -3222,7 +3222,7 @@
             "tags": [
                "InvoiceProfiles"
             ],
-            "operationId": "PostInvoiceProfiles",
+            "operationId": "CreateInvoiceProfiles",
             "parameters": [
                {
                   "name": "invoiceProfile",
@@ -3286,7 +3286,7 @@
             "tags": [
                "InvoiceProfiles"
             ],
-            "operationId": "PutInvoiceProfiles",
+            "operationId": "UpdateInvoiceProfiles",
             "parameters": [
                {
                   "type": "integer",
@@ -3535,7 +3535,7 @@
             "tags": [
                "OrganizationAccess"
             ],
-            "operationId": "PutOrganizationAccess",
+            "operationId": "UpdateOrganizationAccess",
             "parameters": [
                {
                   "name": "list",
@@ -4032,7 +4032,7 @@
             "tags": [
                "ProductContainers"
             ],
-            "operationId": "PutProductContainers",
+            "operationId": "UpdateProductContainers",
             "parameters": [
                {
                   "type": "integer",
@@ -4705,7 +4705,7 @@
             "tags": [
                "Secrets"
             ],
-            "operationId": "PostSecrets",
+            "operationId": "CreateSecrets",
             "parameters": [
                {
                   "name": "secret",
@@ -4859,7 +4859,7 @@
             "tags": [
                "Subscriptions"
             ],
-            "operationId": "PostSubscriptions",
+            "operationId": "CreateSubscriptions",
             "parameters": [
                {
                   "name": "subscription",
@@ -4944,7 +4944,7 @@
             "tags": [
                "Subscriptions"
             ],
-            "operationId": "PutSubscriptions",
+            "operationId": "UpdateSubscriptions",
             "parameters": [
                {
                   "type": "integer",
@@ -6092,7 +6092,29 @@
             "tags": [
                "CustomerToken"
             ],
-            "operationId": "PostCustomerToken",
+            "operationId": "CreateCustomerToken",
+            "parameters": [
+               {
+                  "name": "username",
+                  "in": "body",
+                  "required": true
+               },
+               {
+                  "name": "password",
+                  "in": "body",
+                  "required": true
+               },
+               {
+                  "name": "grant_type",
+                  "in": "body",
+                  "required": true
+               },
+               {
+                  "name": "scope",
+                  "in": "body",
+                  "required": true
+               }
+            ],
             "responses": {
                "200": {
                   "description": "Success",

@@ -27,15 +27,50 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	CreateGroupings(params *CreateGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateGroupingsOK, error)
+
 	DeleteGroupings(params *DeleteGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteGroupingsOK, error)
 
 	GetGroupings(params *GetGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*GetGroupingsOK, error)
 
-	PostGroupings(params *PostGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*PostGroupingsOK, error)
-
-	PutGroupings(params *PutGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*PutGroupingsOK, error)
+	UpdateGroupings(params *UpdateGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateGroupingsOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  CreateGroupings create groupings API
+*/
+func (a *Client) CreateGroupings(params *CreateGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateGroupingsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateGroupingsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CreateGroupings",
+		Method:             "POST",
+		PathPattern:        "/api/v1/Groupings",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &CreateGroupingsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateGroupingsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CreateGroupings: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -109,58 +144,23 @@ func (a *Client) GetGroupings(params *GetGroupingsParams, authInfo runtime.Clien
 }
 
 /*
-  PostGroupings post groupings API
+  UpdateGroupings update groupings API
 */
-func (a *Client) PostGroupings(params *PostGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*PostGroupingsOK, error) {
+func (a *Client) UpdateGroupings(params *UpdateGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateGroupingsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewPostGroupingsParams()
+		params = NewUpdateGroupingsParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PostGroupings",
-		Method:             "POST",
-		PathPattern:        "/api/v1/Groupings",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &PostGroupingsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*PostGroupingsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PostGroupings: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-  PutGroupings put groupings API
-*/
-func (a *Client) PutGroupings(params *PutGroupingsParams, authInfo runtime.ClientAuthInfoWriter) (*PutGroupingsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewPutGroupingsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PutGroupings",
+		ID:                 "UpdateGroupings",
 		Method:             "PUT",
 		PathPattern:        "/api/v1/Groupings/{id}",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &PutGroupingsReader{formats: a.formats},
+		Reader:             &UpdateGroupingsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -168,13 +168,13 @@ func (a *Client) PutGroupings(params *PutGroupingsParams, authInfo runtime.Clien
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*PutGroupingsOK)
+	success, ok := result.(*UpdateGroupingsOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PutGroupings: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for UpdateGroupings: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

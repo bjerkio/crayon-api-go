@@ -27,11 +27,46 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	CreateSecrets(params *CreateSecretsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateSecretsOK, error)
+
 	DeleteSecrets(params *DeleteSecretsParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteSecretsOK, error)
 
-	PostSecrets(params *PostSecretsParams, authInfo runtime.ClientAuthInfoWriter) (*PostSecretsOK, error)
-
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  CreateSecrets create secrets API
+*/
+func (a *Client) CreateSecrets(params *CreateSecretsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateSecretsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateSecretsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CreateSecrets",
+		Method:             "POST",
+		PathPattern:        "/api/v1/Secrets",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &CreateSecretsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateSecretsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CreateSecrets: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -66,41 +101,6 @@ func (a *Client) DeleteSecrets(params *DeleteSecretsParams, authInfo runtime.Cli
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for DeleteSecrets: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-  PostSecrets post secrets API
-*/
-func (a *Client) PostSecrets(params *PostSecretsParams, authInfo runtime.ClientAuthInfoWriter) (*PostSecretsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewPostSecretsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PostSecrets",
-		Method:             "POST",
-		PathPattern:        "/api/v1/Secrets",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &PostSecretsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*PostSecretsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PostSecrets: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

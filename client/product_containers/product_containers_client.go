@@ -39,7 +39,7 @@ type ClientService interface {
 
 	PatchProductRow(params *PatchProductRowParams, authInfo runtime.ClientAuthInfoWriter) (*PatchProductRowOK, error)
 
-	PutProductContainers(params *PutProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*PutProductContainersOK, error)
+	UpdateProductContainers(params *UpdateProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateProductContainersOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -255,23 +255,23 @@ func (a *Client) PatchProductRow(params *PatchProductRowParams, authInfo runtime
 }
 
 /*
-  PutProductContainers put product containers API
+  UpdateProductContainers update product containers API
 */
-func (a *Client) PutProductContainers(params *PutProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*PutProductContainersOK, error) {
+func (a *Client) UpdateProductContainers(params *UpdateProductContainersParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateProductContainersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewPutProductContainersParams()
+		params = NewUpdateProductContainersParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PutProductContainers",
+		ID:                 "UpdateProductContainers",
 		Method:             "PUT",
 		PathPattern:        "/api/v1/ProductContainers/{id}",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &PutProductContainersReader{formats: a.formats},
+		Reader:             &UpdateProductContainersReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -279,13 +279,13 @@ func (a *Client) PutProductContainers(params *PutProductContainersParams, authIn
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*PutProductContainersOK)
+	success, ok := result.(*UpdateProductContainersOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PutProductContainers: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for UpdateProductContainers: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

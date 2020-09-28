@@ -19,7 +19,7 @@ import (
 // NewPostCustomerTokenParams creates a new PostCustomerTokenParams object
 // with the default values initialized.
 func NewPostCustomerTokenParams() *PostCustomerTokenParams {
-
+	var ()
 	return &PostCustomerTokenParams{
 
 		timeout: cr.DefaultTimeout,
@@ -29,7 +29,7 @@ func NewPostCustomerTokenParams() *PostCustomerTokenParams {
 // NewPostCustomerTokenParamsWithTimeout creates a new PostCustomerTokenParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewPostCustomerTokenParamsWithTimeout(timeout time.Duration) *PostCustomerTokenParams {
-
+	var ()
 	return &PostCustomerTokenParams{
 
 		timeout: timeout,
@@ -39,7 +39,7 @@ func NewPostCustomerTokenParamsWithTimeout(timeout time.Duration) *PostCustomerT
 // NewPostCustomerTokenParamsWithContext creates a new PostCustomerTokenParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewPostCustomerTokenParamsWithContext(ctx context.Context) *PostCustomerTokenParams {
-
+	var ()
 	return &PostCustomerTokenParams{
 
 		Context: ctx,
@@ -49,7 +49,7 @@ func NewPostCustomerTokenParamsWithContext(ctx context.Context) *PostCustomerTok
 // NewPostCustomerTokenParamsWithHTTPClient creates a new PostCustomerTokenParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewPostCustomerTokenParamsWithHTTPClient(client *http.Client) *PostCustomerTokenParams {
-
+	var ()
 	return &PostCustomerTokenParams{
 		HTTPClient: client,
 	}
@@ -59,6 +59,16 @@ func NewPostCustomerTokenParamsWithHTTPClient(client *http.Client) *PostCustomer
 for the post customer token operation typically these are written to a http.Request
 */
 type PostCustomerTokenParams struct {
+
+	/*GrantType*/
+	GrantType interface{}
+	/*Password*/
+	Password interface{}
+	/*Scope*/
+	Scope interface{}
+	/*Username*/
+	Username interface{}
+
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
@@ -97,6 +107,50 @@ func (o *PostCustomerTokenParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithGrantType adds the grantType to the post customer token params
+func (o *PostCustomerTokenParams) WithGrantType(grantType interface{}) *PostCustomerTokenParams {
+	o.SetGrantType(grantType)
+	return o
+}
+
+// SetGrantType adds the grantType to the post customer token params
+func (o *PostCustomerTokenParams) SetGrantType(grantType interface{}) {
+	o.GrantType = grantType
+}
+
+// WithPassword adds the password to the post customer token params
+func (o *PostCustomerTokenParams) WithPassword(password interface{}) *PostCustomerTokenParams {
+	o.SetPassword(password)
+	return o
+}
+
+// SetPassword adds the password to the post customer token params
+func (o *PostCustomerTokenParams) SetPassword(password interface{}) {
+	o.Password = password
+}
+
+// WithScope adds the scope to the post customer token params
+func (o *PostCustomerTokenParams) WithScope(scope interface{}) *PostCustomerTokenParams {
+	o.SetScope(scope)
+	return o
+}
+
+// SetScope adds the scope to the post customer token params
+func (o *PostCustomerTokenParams) SetScope(scope interface{}) {
+	o.Scope = scope
+}
+
+// WithUsername adds the username to the post customer token params
+func (o *PostCustomerTokenParams) WithUsername(username interface{}) *PostCustomerTokenParams {
+	o.SetUsername(username)
+	return o
+}
+
+// SetUsername adds the username to the post customer token params
+func (o *PostCustomerTokenParams) SetUsername(username interface{}) {
+	o.Username = username
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *PostCustomerTokenParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -104,6 +158,30 @@ func (o *PostCustomerTokenParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
+
+	if o.GrantType != nil {
+		if err := r.SetBodyParam(o.GrantType); err != nil {
+			return err
+		}
+	}
+
+	if o.Password != nil {
+		if err := r.SetBodyParam(o.Password); err != nil {
+			return err
+		}
+	}
+
+	if o.Scope != nil {
+		if err := r.SetBodyParam(o.Scope); err != nil {
+			return err
+		}
+	}
+
+	if o.Username != nil {
+		if err := r.SetBodyParam(o.Username); err != nil {
+			return err
+		}
+	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

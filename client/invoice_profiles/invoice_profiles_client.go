@@ -27,15 +27,50 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	CreateInvoiceProfiles(params *CreateInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*CreateInvoiceProfilesOK, error)
+
 	DeleteInvoiceProfiles(params *DeleteInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteInvoiceProfilesOK, error)
 
 	GetInvoiceProfiles(params *GetInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*GetInvoiceProfilesOK, error)
 
-	PostInvoiceProfiles(params *PostInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*PostInvoiceProfilesOK, error)
-
-	PutInvoiceProfiles(params *PutInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*PutInvoiceProfilesOK, error)
+	UpdateInvoiceProfiles(params *UpdateInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateInvoiceProfilesOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  CreateInvoiceProfiles create invoice profiles API
+*/
+func (a *Client) CreateInvoiceProfiles(params *CreateInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*CreateInvoiceProfilesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateInvoiceProfilesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CreateInvoiceProfiles",
+		Method:             "POST",
+		PathPattern:        "/api/v1/InvoiceProfiles",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &CreateInvoiceProfilesReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateInvoiceProfilesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CreateInvoiceProfiles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -109,58 +144,23 @@ func (a *Client) GetInvoiceProfiles(params *GetInvoiceProfilesParams, authInfo r
 }
 
 /*
-  PostInvoiceProfiles post invoice profiles API
+  UpdateInvoiceProfiles update invoice profiles API
 */
-func (a *Client) PostInvoiceProfiles(params *PostInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*PostInvoiceProfilesOK, error) {
+func (a *Client) UpdateInvoiceProfiles(params *UpdateInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateInvoiceProfilesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewPostInvoiceProfilesParams()
+		params = NewUpdateInvoiceProfilesParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PostInvoiceProfiles",
-		Method:             "POST",
-		PathPattern:        "/api/v1/InvoiceProfiles",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &PostInvoiceProfilesReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*PostInvoiceProfilesOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PostInvoiceProfiles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-  PutInvoiceProfiles put invoice profiles API
-*/
-func (a *Client) PutInvoiceProfiles(params *PutInvoiceProfilesParams, authInfo runtime.ClientAuthInfoWriter) (*PutInvoiceProfilesOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewPutInvoiceProfilesParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PutInvoiceProfiles",
+		ID:                 "UpdateInvoiceProfiles",
 		Method:             "PUT",
 		PathPattern:        "/api/v1/InvoiceProfiles/{id}",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &PutInvoiceProfilesReader{formats: a.formats},
+		Reader:             &UpdateInvoiceProfilesReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -168,13 +168,13 @@ func (a *Client) PutInvoiceProfiles(params *PutInvoiceProfilesParams, authInfo r
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*PutInvoiceProfilesOK)
+	success, ok := result.(*UpdateInvoiceProfilesOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PutInvoiceProfiles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for UpdateInvoiceProfiles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

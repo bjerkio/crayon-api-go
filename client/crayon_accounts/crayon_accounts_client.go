@@ -27,15 +27,50 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	CreateCrayonAccounts(params *CreateCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateCrayonAccountsOK, error)
+
 	GetCrayonAccountByID(params *GetCrayonAccountByIDParams, authInfo runtime.ClientAuthInfoWriter) (*GetCrayonAccountByIDOK, error)
 
 	GetCrayonAccounts(params *GetCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*GetCrayonAccountsOK, error)
 
-	PostCrayonAccounts(params *PostCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*PostCrayonAccountsOK, error)
-
-	PutCrayonAccounts(params *PutCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*PutCrayonAccountsOK, error)
+	UpdateCrayonAccounts(params *UpdateCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateCrayonAccountsOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  CreateCrayonAccounts create crayon accounts API
+*/
+func (a *Client) CreateCrayonAccounts(params *CreateCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateCrayonAccountsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateCrayonAccountsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CreateCrayonAccounts",
+		Method:             "POST",
+		PathPattern:        "/api/v1/CrayonAccounts",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &CreateCrayonAccountsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateCrayonAccountsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CreateCrayonAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -109,58 +144,23 @@ func (a *Client) GetCrayonAccounts(params *GetCrayonAccountsParams, authInfo run
 }
 
 /*
-  PostCrayonAccounts post crayon accounts API
+  UpdateCrayonAccounts update crayon accounts API
 */
-func (a *Client) PostCrayonAccounts(params *PostCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*PostCrayonAccountsOK, error) {
+func (a *Client) UpdateCrayonAccounts(params *UpdateCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateCrayonAccountsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewPostCrayonAccountsParams()
+		params = NewUpdateCrayonAccountsParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PostCrayonAccounts",
-		Method:             "POST",
-		PathPattern:        "/api/v1/CrayonAccounts",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &PostCrayonAccountsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*PostCrayonAccountsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PostCrayonAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-  PutCrayonAccounts put crayon accounts API
-*/
-func (a *Client) PutCrayonAccounts(params *PutCrayonAccountsParams, authInfo runtime.ClientAuthInfoWriter) (*PutCrayonAccountsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewPutCrayonAccountsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PutCrayonAccounts",
+		ID:                 "UpdateCrayonAccounts",
 		Method:             "PUT",
 		PathPattern:        "/api/v1/CrayonAccounts/{id}",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &PutCrayonAccountsReader{formats: a.formats},
+		Reader:             &UpdateCrayonAccountsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -168,13 +168,13 @@ func (a *Client) PutCrayonAccounts(params *PutCrayonAccountsParams, authInfo run
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*PutCrayonAccountsOK)
+	success, ok := result.(*UpdateCrayonAccountsOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PutCrayonAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for UpdateCrayonAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

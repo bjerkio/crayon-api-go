@@ -27,15 +27,50 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	CreateClients(params *CreateClientsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClientsOK, error)
+
 	DeleteClients(params *DeleteClientsParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClientsOK, error)
 
 	GetClients(params *GetClientsParams, authInfo runtime.ClientAuthInfoWriter) (*GetClientsOK, error)
 
-	PostClients(params *PostClientsParams, authInfo runtime.ClientAuthInfoWriter) (*PostClientsOK, error)
-
-	PutClients(params *PutClientsParams, authInfo runtime.ClientAuthInfoWriter) (*PutClientsOK, error)
+	UpdateClients(params *UpdateClientsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateClientsOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  CreateClients create clients API
+*/
+func (a *Client) CreateClients(params *CreateClientsParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClientsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateClientsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CreateClients",
+		Method:             "POST",
+		PathPattern:        "/api/v1/Clients",
+		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
+		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &CreateClientsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CreateClientsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CreateClients: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -109,58 +144,23 @@ func (a *Client) GetClients(params *GetClientsParams, authInfo runtime.ClientAut
 }
 
 /*
-  PostClients post clients API
+  UpdateClients update clients API
 */
-func (a *Client) PostClients(params *PostClientsParams, authInfo runtime.ClientAuthInfoWriter) (*PostClientsOK, error) {
+func (a *Client) UpdateClients(params *UpdateClientsParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateClientsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewPostClientsParams()
+		params = NewUpdateClientsParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PostClients",
-		Method:             "POST",
-		PathPattern:        "/api/v1/Clients",
-		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
-		Params:             params,
-		Reader:             &PostClientsReader{formats: a.formats},
-		AuthInfo:           authInfo,
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*PostClientsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PostClients: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-  PutClients put clients API
-*/
-func (a *Client) PutClients(params *PutClientsParams, authInfo runtime.ClientAuthInfoWriter) (*PutClientsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewPutClientsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "PutClients",
+		ID:                 "UpdateClients",
 		Method:             "PUT",
 		PathPattern:        "/api/v1/Clients/{clientId}",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &PutClientsReader{formats: a.formats},
+		Reader:             &UpdateClientsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -168,13 +168,13 @@ func (a *Client) PutClients(params *PutClientsParams, authInfo runtime.ClientAut
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*PutClientsOK)
+	success, ok := result.(*UpdateClientsOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for PutClients: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for UpdateClients: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
