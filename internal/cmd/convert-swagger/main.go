@@ -90,6 +90,7 @@ func main() {
 	}
 
 	api.Paths.Paths["/api/v1/connect/token"].Post.Parameters = parameters
+	api.Paths.Paths["/api/v1/connect/token"].Post.Consumes = []string{"application/x-www-form-urlencoded"}
 
 	for i, h := range api.Paths.Paths {
 		fixMethod(i, h.Delete)

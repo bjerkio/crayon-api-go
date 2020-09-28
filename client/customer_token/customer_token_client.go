@@ -46,7 +46,7 @@ func (a *Client) CreateCustomerToken(params *CreateCustomerTokenParams, authInfo
 		Method:             "POST",
 		PathPattern:        "/api/v1/connect/token",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/x-www-form-urlencoded"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateCustomerTokenReader{formats: a.formats},

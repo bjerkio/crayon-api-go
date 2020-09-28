@@ -6087,6 +6087,9 @@
       },
       "/api/v1/connect/token": {
          "post": {
+            "consumes": [
+               "application/x-www-form-urlencoded"
+            ],
             "produces": [
                "text/plain",
                "application/json",
