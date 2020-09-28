@@ -47,7 +47,7 @@ func (a *Client) GetAgreements(params *GetAgreementsParams, authInfo runtime.Cli
 		PathPattern:        "/api/v1/Agreements",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAgreementsReader{formats: a.formats},
 		AuthInfo:           authInfo,

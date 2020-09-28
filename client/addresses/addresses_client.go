@@ -47,7 +47,7 @@ func (a *Client) GetAddresses(params *GetAddressesParams, authInfo runtime.Clien
 		PathPattern:        "/api/v1/organizations/{organizationId}/Addresses",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAddressesReader{formats: a.formats},
 		AuthInfo:           authInfo,

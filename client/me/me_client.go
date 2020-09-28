@@ -47,7 +47,7 @@ func (a *Client) GetMe(params *GetMeParams, authInfo runtime.ClientAuthInfoWrite
 		PathPattern:        "/api/v1/Me",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetMeReader{formats: a.formats},
 		AuthInfo:           authInfo,

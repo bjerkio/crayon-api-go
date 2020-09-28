@@ -47,7 +47,7 @@ func (a *Client) GetPing(params *GetPingParams, authInfo runtime.ClientAuthInfoW
 		PathPattern:        "/api/v1/Ping",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetPingReader{formats: a.formats},
 		AuthInfo:           authInfo,

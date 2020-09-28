@@ -47,7 +47,7 @@ func (a *Client) GetActivityLogs(params *GetActivityLogsParams, authInfo runtime
 		PathPattern:        "/api/v1/ActivityLogs",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetActivityLogsReader{formats: a.formats},
 		AuthInfo:           authInfo,

@@ -47,7 +47,7 @@ func (a *Client) GetPrograms(params *GetProgramsParams, authInfo runtime.ClientA
 		PathPattern:        "/api/v1/Programs",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetProgramsReader{formats: a.formats},
 		AuthInfo:           authInfo,

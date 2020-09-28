@@ -54,6 +54,10 @@ func main() {
 		panic(err)
 	}
 
+	// Add missing scheme: https
+	api.Schemes = []string{"https"}
+
+	// Add missing parameters for token
 	parameters := []spec.Parameter{
 		{
 			ParamProps: spec.ParamProps{

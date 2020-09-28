@@ -47,7 +47,7 @@ func (a *Client) GetForDirectCustomers(params *GetForDirectCustomersParams, auth
 		PathPattern:        "/api/v1/BlogItems",
 		ProducesMediaTypes: []string{"application/json", "text/json", "text/plain"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetForDirectCustomersReader{formats: a.formats},
 		AuthInfo:           authInfo,

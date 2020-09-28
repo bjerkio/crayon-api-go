@@ -47,7 +47,7 @@ func (a *Client) CheckoutAsync(params *CheckoutAsyncParams, authInfo runtime.Cli
 		PathPattern:        "/api/v1/GoogleOrders/checkout",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/*+json", "application/json", "application/json-patch+json", "text/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CheckoutAsyncReader{formats: a.formats},
 		AuthInfo:           authInfo,
