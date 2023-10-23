@@ -10,5 +10,5 @@ require (
 	github.com/go-openapi/strfmt v0.21.7
 	github.com/go-openapi/swag v0.22.4
 	github.com/go-openapi/validate v0.22.1
-	github.com/google/addlicense v0.0.0-20200906110928-a0294312aa76
+	github.com/google/addlicense v1.1.1
 )
